@@ -1,4 +1,4 @@
-# Submission: Drone Delivery Website
+# Submission: Pharmacy Delivery Website (MediCourier)
 
 Public site URL (primary):
 
@@ -12,7 +12,7 @@ What this contains:
 
  - `docs/` — The static site published to GitHub Pages (copied from `public/`).
  - `docs/index.html` — Main landing page.
- - `docs/drones.html` — Drone gallery page.
+ - `docs/drones.html` — Delivery gallery page (now branded as MediCourier).
  - `docs/images/` — Images used on the site.
 
 How to view (two options):
