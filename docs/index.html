@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SkyCourier � Ultra?fast Drone Delivery</title>
+  <meta name="description" content="Ultra?fast, zero?emission drone delivery for campuses and businesses in Accra & Tema." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <style>
+    :root { color-scheme: dark; }
+    html { scroll-behavior: smooth; }
+    #liveMap { height: 420px; }
+    .leaflet-container { background: #0b1220; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100">
+  <!-- Navbar -->
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-slate-950/70 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-8">
+      <a href="#home" class="flex items-center gap-2">
+        <svg class="h-8 w-8 text-sky-400" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M12 6a6 6 0 110 12 6 6 0 010-12zm24 0a6 6 0 110 12 6 6 0 010-12zM12 30a6 6 0 110 12 6 6 0 010-12zm24 0a6 6 0 110 12 6 6 0 010-12z" stroke="currentColor" stroke-width="2"/><rect x="18" y="18" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2"/><path d="M18 24H6M42 24H30M24 18V6M24 42V30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="text-lg font-bold tracking-tight">SkyCourier</span>
+      </a>
+      <nav class="hidden items-center gap-6 md:flex">
+        <a class="text-sm font-medium text-slate-200/90 hover:text-white transition" href="#features">Features</a>
+        <a class="text-sm font-medium text-slate-200/90 hover:text-white transition" href="#how">How it works</a>
+        <a class="text-sm font-medium text-slate-200/90 hover:text-white transition" href="#pricing">Pricing</a>
+        <a class="text-sm font-medium text-slate-200/90 hover:text-white transition" href="#faq">FAQ</a>
+        <a class="text-sm font-medium text-slate-200/90 hover:text-white transition" href="#contact">Contact</a>
+      </nav>
+      <a href="#contact" class="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-sky-400 active:bg-sky-300">
+        Book a demo
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 -z-10">
+      <div class="absolute left-1/2 -top-24 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl"></div>
+      <div class="absolute left-[10%] top-[20%] h-40 w-40 rounded-full bg-fuchsia-500/10 blur-2xl"></div>
+      <div class="absolute right-[10%] top-[35%] h-40 w-40 rounded-full bg-cyan-500/10 blur-2xl"></div>
+    </div>
+    <div class="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:gap-16 md:px-8 md:py-24">
+      <div>
+        <p class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-sky-300">
+          <span class="inline-flex h-2 w-2 animate-pulse rounded-full bg-emerald-400"></span>
+          Live in Accra & Tema
+        </p>
+        <h1 class="mt-4 text-4xl font-bold tracking-tight text-white md:text-6xl">Ultra?fast drone delivery for businesses & campuses</h1>
+        <p class="mt-4 max-w-xl text-lg text-slate-300">Get parcels, meals, and meds across town in minutes�not hours. SkyCourier�s autonomous fleet navigates safely above traffic with real?time tracking and zero emissions.</p>
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <a href="#pricing" class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-200">See pricing <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#how" class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">How it works</a>
+        </div>
+        <div class="mt-6 grid max-w-md grid-cols-3 gap-3">
+          <div class="rounded-xl bg-white/5 p-5 text-center ring-1 ring-white/10"><div class="text-3xl font-bold text-white">< 10 min</div><div class="text-sm text-slate-300">Avg. ETA</div></div>
+          <div class="rounded-xl bg-white/5 p-5 text-center ring-1 ring-white/10"><div class="text-3xl font-bold text-white">99.95%</div><div class="text-sm text-slate-300">On?time</div></div>
+          <div class="rounded-xl bg-white/5 p-5 text-center ring-1 ring-white/10"><div class="text-3xl font-bold text-white">0g CO?</div><div class="text-sm text-slate-300">Per delivery</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-slate-800 to-slate-900 shadow-2xl">
+          <div class="absolute inset-0 grid place-items-center">
+            <svg class="h-40 w-40 text-slate-300" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M12 6a6 6 0 110 12 6 6 0 010-12zm24 0a6 6 0 110 12 6 6 0 010-12zM12 30a6 6 0 110 12 6 6 0 010-12zm24 0a6 6 0 110 12 6 6 0 010-12z" stroke="currentColor" stroke-width="2"/><rect x="18" y="18" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2"/><path d="M18 24H6M42 24H30M24 18V6M24 42V30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="absolute bottom-3 right-3 rounded-lg bg-black/60 px-3 py-2 text-xs text-white ring-1 ring-white/10">Live feed � Demo</div>
+        </div>
+        <p class="mt-4 text-center text-sm text-slate-400">Embed a map or video demo here later.</p>
+      </div>
+    </div>
+
+    <!-- Drone image strip -->
+    <div class="mx-auto max-w-7xl px-4 py-8 md:px-8">
+      <h3 class="text-lg font-semibold text-white mb-4">Our fleet</h3>
+      <div class="flex gap-3 overflow-x-auto py-2">
+        <a href="/drones.html" class="flex-none rounded-xl ring-1 ring-white/10 bg-slate-900/40 p-2">
+          <img src="/images/drone-2.jpg" alt="Drone" class="h-36 w-64 object-cover rounded-md" />
+        </a>
+        <a href="/drones.html" class="flex-none rounded-xl ring-1 ring-white/10 bg-slate-900/40 p-2">
+          <img src="/images/drone-3.jpg" alt="Drone" class="h-36 w-64 object-cover rounded-md" />
+        </a>
+      </div>
+      <div class="mt-3 text-sm text-slate-300">Showing uploaded images. <a href="/drones.html" class="font-semibold text-sky-400">View gallery →</a></div>
+    </div>
+  </section>
+
+  <!-- Live Tracking (Demo) -->
+  <section id="live" class="mx-auto max-w-7xl px-4 py-16 md:px-8">
+    <div class="mx-auto mb-10 max-w-2xl text-center">
+      <p class="mb-2 inline-block rounded-full bg-slate-900/60 px-3 py-1 text-xs font-semibold text-sky-300 ring-1 ring-white/10">Realtime</p>
+      <h2 class="text-3xl font-bold tracking-tight text-white md:text-4xl">Live tracking demo</h2>
+      <p class="mt-3 text-slate-300">A working map powered by OpenStreetMap + Leaflet. It simulates a drone flying across Accra. Plug in your backend to stream real GPS.</p>
+    </div>
+    <div class="rounded-2xl border border-white/10 bg-slate-900 shadow-2xl">
+      <div id="liveMap" class="w-full"></div>
+      <div id="liveBadge" class="mt-2 px-3 py-2 text-xs text-slate-300">Live tracking � Demo</div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="mx-auto max-w-7xl px-4 py-16 md:px-8">
+    <div class="mx-auto mb-10 max-w-2xl text-center">
+      <p class="mb-2 inline-block rounded-full bg-slate-900/60 px-3 py-1 text-xs font-semibold text-sky-300 ring-1 ring-white/10">Why SkyCourier</p>
+      <h2 class="text-3xl font-bold tracking-tight text-white md:text-4xl">Built for speed, reliability, and safety</h2>
+      <p class="mt-3 text-slate-300">Modern air logistics that�s simple to adopt�start sending your first delivery in under 24 hours.</p>
+    </div>
+    <div class="mx-auto max-w-4xl px-4">
+      <h3 class="text-lg font-semibold text-white mb-6">Quick Start</h3>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <ol class="space-y-4">
+          <li class="flex items-start gap-4">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500 text-white font-semibold">1</div>
+            <div>
+              <div class="font-semibold text-white">Create an account</div>
+              <div class="text-sm text-slate-300">Sign up with email or SSO and add your company details to get started.</div>
+            </div>
+          </li>
+          <li class="flex items-start gap-4">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500 text-white font-semibold">2</div>
+            <div>
+              <div class="font-semibold text-white">Define pickup zones</div>
+              <div class="text-sm text-slate-300">Configure geofenced pickup/dropoff locations and optional smart lockers.</div>
+            </div>
+          </li>
+          <li class="flex items-start gap-4">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500 text-white font-semibold">3</div>
+            <div>
+              <div class="font-semibold text-white">Integrate orders</div>
+              <div class="text-sm text-slate-300">Use the dashboard, REST API or Zapier to send orders automatically.</div>
+            </div>
+          </li>
+          <li class="flex items-start gap-4">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500 text-white font-semibold">4</div>
+            <div>
+              <div class="font-semibold text-white">Dispatch and monitor</div>
+              <div class="text-sm text-slate-300">Launch a mission, watch live GPS, and share tracking links with recipients.</div>
+            </div>
+          </li>
+        </ol>
+
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <svg class="h-6 w-6 flex-none text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div class="font-semibold text-white">Fast deliveries</div>
+              <div class="text-sm text-slate-300">Deliveries in minutes across supported zones.</div>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="h-6 w-6 flex-none text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div class="font-semibold text-white">Live tracking</div>
+              <div class="text-sm text-slate-300">Shareable real-time GPS links and ETA for recipients.</div>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="h-6 w-6 flex-none text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div class="font-semibold text-white">Secure deliveries</div>
+              <div class="text-sm text-slate-300">QR-verified pickups and encrypted delivery logs.</div>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="h-6 w-6 flex-none text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div class="font-semibold text-white">Green operations</div>
+              <div class="text-sm text-slate-300">Electric fleet with low noise and zero operational emissions.</div>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="h-6 w-6 flex-none text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <div class="font-semibold text-white">API & dashboard</div>
+              <div class="text-sm text-slate-300">Automate orders, schedule runs, and access analytics.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div class="group rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur transition hover:bg-white/10">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-sky-400/10 text-sky-300 ring-1 ring-sky-300/20">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white">Instant dispatch</h3>
+        <p class="mt-2 text-sm text-slate-300">Autonomous routing picks the fastest safe corridor and assigns the nearest drone.</p>
+      </div>
+      <div class="group rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur transition hover:bg-white/10">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-sky-400/10 text-sky-300 ring-1 ring-sky-300/20">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white">Secure payloads</h3>
+        <p class="mt-2 text-sm text-slate-300">Smart lockers and QR?verified pickup ensure packages reach the right hands.</p>
+      </div>
+      <div class="group rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur transition hover:bg-white/10">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-sky-400/10 text-sky-300 ring-1 ring-sky-300/20">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white">Live tracking</h3>
+        <p class="mt-2 text-sm text-slate-300">SMS links show real?time location, ETA, and landing status for recipients.</p>
+      </div>
+      <div class="group rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur transition hover:bg-white/10">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-sky-400/10 text-sky-300 ring-1 ring-sky-300/20">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white">Green ops</h3>
+        <p class="mt-2 text-sm text-slate-300">Electric fleet with swappable batteries�clean, quiet, efficient.</p>
+      </div>
+      <div class="group rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur transition hover:bg-white/10">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-sky-400/10 text-sky-300 ring-1 ring-sky-300/20">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white">API & dashboard</h3>
+        <p class="mt-2 text-sm text-slate-300">Integrate orders or manage runs from a beautiful control panel.</p>
+      </div>
+      <div class="group rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur transition hover:bg-white/10">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-sky-400/10 text-sky-300 ring-1 ring-sky-300/20">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white">Regulatory ready</h3>
+        <p class="mt-2 text-sm text-slate-300">Built?in geofencing and compliance logging to simplify approvals.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how" class="border-t border-white/10 bg-white/5">
+    <div class="mx-auto max-w-7xl px-4 py-16 md:px-8">
+      <div class="mx-auto mb-10 max-w-2xl text-center">
+        <p class="mb-2 inline-block rounded-full bg-slate-900/60 px-3 py-1 text-xs font-semibold text-sky-300 ring-1 ring-white/10">Flight path to delivered</p>
+        <h2 class="text-3xl font-bold tracking-tight text-white md:text-4xl">From tap to touchdown in four steps</h2>
+      </div>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-4">
+        <div class="rounded-2xl bg-slate-900/60 p-6 ring-1 ring-white/10"><div class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-sky-400/10 text-sky-300 ring-1 ring-sky-300/30">1</div><h3 class="font-semibold text-white">Create order</h3><p class="mt-2 text-sm text-slate-300">Place a request via dashboard, API, or WhatsApp Business.</p></div>
+        <div class="rounded-2xl bg-slate-900/60 p-6 ring-1 ring-white/10"><div class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-sky-400/10 text-sky-300 ring-1 ring-sky-300/30">2</div><h3 class="font-semibold text-white">Drone dispatch</h3><p class="mt-2 text-sm text-slate-300">Nearest available drone locks mission and plots a safe corridor.</p></div>
+        <div class="rounded-2xl bg-slate-900/60 p-6 ring-1 ring-white/10"><div class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-sky-400/10 text-sky-300 ring-1 ring-sky-300/30">3</div><h3 class="font-semibold text-white">In?flight tracking</h3><p class="mt-2 text-sm text-slate-300">Watch position, altitude, and ETA�shareable with recipients.</p></div>
+        <div class="rounded-2xl bg-slate-900/60 p-6 ring-1 ring-white/10"><div class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-sky-400/10 text-sky-300 ring-1 ring-sky-300/30">4</div><h3 class="font-semibold text-white">Safe drop?off</h3><p class="mt-2 text-sm text-slate-300">Precision landing to a pad or smart?locker with pickup PIN.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="mx-auto max-w-7xl px-4 py-16 md:px-8">
+    <div class="mx-auto mb-10 max-w-2xl text-center">
+      <p class="mb-2 inline-block rounded-full bg-slate-900/60 px-3 py-1 text-xs font-semibold text-sky-300 ring-1 ring-white/10">Simple pricing</p>
+      <h2 class="text-3xl font-bold tracking-tight text-white md:text-4xl">Pick a plan that scales with you</h2>
+    </div>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div class="relative rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur">
+        <h3 class="text-lg font-semibold text-white">Starter</h3>
+        <p class="mt-1 text-3xl font-bold text-white">GHS 149/mo</p>
+        <ul class="mt-4 space-y-3 text-sm text-slate-300">
+          <li class="flex items-start gap-2"><svg class="mt-0.5 h-5 w-5 text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Up to 50 deliveries</span></li>
+          <li class="flex items-start gap-2"><svg class="mt-0.5 h-5 w-5 text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>2 pickup zones</span></li>
+          <li class="flex items-start gap-2"><svg class="mt-0.5 h-5 w-5 text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SMS tracking</span></li>
+          <li class="flex items-start gap-2"><svg class="mt-0.5 h-5 w-5 text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Email support</span></li>
+        </ul>
+        <a href="#contact" class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-sky-500 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-sky-400">Get started</a>
+      </div>
+      <div class="relative rounded-2xl bg-white/10 p-6 ring-1 ring-sky-400 backdrop-blur">
+        <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-sky-500 px-3 py-1 text-xs font-bold text-slate-900">Popular</span>
+        <h3 class="text-lg font-semibold text-white">Growth</h3>
+        <p class="mt-1 text-3xl font-bold text-white">GHS 399/mo</p>
+        <ul class="mt-4 space-y-3 text-sm text-slate-300">
+          <li class="flex items-start gap-2"><svg class="mt-0.5 h-5 w-5 text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Up to 250 deliveries</span></li>
+          <li class="flex items-start gap-2"><svg class="mt-0.5 h-5 w-5 text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>7 pickup zones</span></li>
+          <li class="flex items-start gap-2"><svg class="mt-0.5 h-5 w-5 text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Live GPS tracking</span></li>
+          <li class="flex items-start gap-2"><svg class="mt-0.5 h-5 w-5 text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Priority support</span></li>
+        </ul>
+        <a href="#contact" class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-200">Choose Growth</a>
+      </div>
+      <div class="relative rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur">
+        <h3 class="text-lg font-semibold text-white">Enterprise</h3>
+        <p class="mt-1 text-3xl font-bold text-white">Talk to us</p>
+        <ul class="mt-4 space-y-3 text-sm text-slate-300">
+          <li class="flex items-start gap-2"><svg class="mt-0.5 h-5 w-5 text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Unlimited deliveries</span></li>
+          <li class="flex items-start gap-2"><svg class="mt-0.5 h-5 w-5 text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Custom SLA</span></li>
+          <li class="flex items-start gap-2"><svg class="mt-0.5 h-5 w-5 text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Dedicated account manager</span></li>
+          <li class="flex items-start gap-2"><svg class="mt-0.5 h-5 w-5 text-emerald-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>API access</span></li>
+        </ul>
+        <a href="#contact" class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-sky-500 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-sky-400">Contact sales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="border-t border-white/10 bg-white/5">
+    <div class="mx-auto max-w-7xl px-4 py-16 md:px-8">
+      <div class="mx-auto mb-10 max-w-2xl text-center">
+        <p class="mb-2 inline-block rounded-full bg-slate-900/60 px-3 py-1 text-xs font-semibold text-sky-300 ring-1 ring-white/10">Loved by operators</p>
+        <h2 class="text-3xl font-bold tracking-tight text-white md:text-4xl">What our partners say</h2>
+      </div>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <figure class="rounded-2xl bg-slate-900/60 p-6 ring-1 ring-white/10"><blockquote class="text-slate-200">�We cut delivery times from 60 minutes to 9 minutes on campus.�</blockquote><figcaption class="mt-4 text-sm text-slate-400">� Ama B., Ops Lead, UniHub</figcaption></figure>
+        <figure class="rounded-2xl bg-slate-900/60 p-6 ring-1 ring-white/10"><blockquote class="text-slate-200">�The API integration took an afternoon and just worked.�</blockquote><figcaption class="mt-4 text-sm text-slate-400">� Kwesi T., CTO, FoodDash GH</figcaption></figure>
+        <figure class="rounded-2xl bg-slate-900/60 p-6 ring-1 ring-white/10"><blockquote class="text-slate-200">�Zero rider costs and fewer failed deliveries�game changer.�</blockquote><figcaption class="mt-4 text-sm text-slate-400">� Abena K., Pharmacy Manager</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="mx-auto max-w-7xl px-4 py-16 md:px-8">
+    <div class="mx-auto mb-10 max-w-2xl text-center">
+      <p class="mb-2 inline-block rounded-full bg-slate-900/60 px-3 py-1 text-xs font-semibold text-sky-300 ring-1 ring-white/10">FAQs</p>
+      <h2 class="text-3xl font-bold tracking-tight text-white md:text-4xl">You�ve got questions. We�ve got answers.</h2>
+    </div>
+    <div class="mx-auto max-w-3xl divide-y divide-white/10 rounded-2xl bg-white/5">
+      <details class="group p-6"><summary class="cursor-pointer list-none text-base font-semibold text-white">Where do you operate?<span class="float-right text-slate-400 group-open:hidden">+</span><span class="float-right hidden text-slate-400 group-open:inline">?</span></summary><p class="mt-2 text-slate-300">Accra & Tema for now. Talk to us about pilots in Kumasi and Takoradi.</p></details>
+      <details class="group p-6"><summary class="cursor-pointer list-none text-base font-semibold text-white">How much can a drone carry?<span class="float-right text-slate-400 group-open:hidden">+</span><span class="float-right hidden text-slate-400 group-open:inline">?</span></summary><p class="mt-2 text-slate-300">Up to 3 kg per flight; larger payload options available for enterprise.</p></details>
+      <details class="group p-6"><summary class="cursor-pointer list-none text-base font-semibold text-white">Is it safe?<span class="float-right text-slate-400 group-open:hidden">+</span><span class="float-right hidden text-slate-400 group-open:inline">?</span></summary><p class="mt-2 text-slate-300">Yes�redundant sensors, geo?fencing, and regulated corridors minimize risk.</p></details>
+      <details class="group p-6"><summary class="cursor-pointer list-none text-base font-semibold text-white">How do I integrate?<span class="float-right text-slate-400 group-open:hidden">+</span><span class="float-right hidden text-slate-400 group-open:inline">?</span></summary><p class="mt-2 text-slate-300">Use our REST API or Zapier to connect your ordering system in hours, not weeks.</p></details>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="border-t border-white/10 bg-white/5">
+    <div class="mx-auto max-w-7xl px-4 py-16 md:px-8">
+      <div class="mx-auto mb-10 max-w-2xl text-center">
+        <p class="mb-2 inline-block rounded-full bg-slate-900/60 px-3 py-1 text-xs font-semibold text-sky-300 ring-1 ring-white/10">Let�s talk</p>
+        <h2 class="text-3xl font-bold tracking-tight text-white md:text-4xl">Book a demo or start a pilot</h2>
+        <p class="mt-3 text-slate-300">Tell us about your use?case and we�ll get back within 24 hours.</p>
+      </div>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <form class="rounded-2xl bg-slate-900/60 p-6 ring-1 ring-white/10" onsubmit="event.preventDefault(); alert('Demo form � wire this to Formspree or your backend.');">
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <label class="text-sm"><span class="mb-1 block text-slate-300">Name</span><input required class="w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-2 text-white outline-none ring-0 placeholder:text-slate-500" placeholder="Delwende Azumah" /></label>
+            <label class="text-sm"><span class="mb-1 block text-slate-300">Email</span><input type="email" required class="w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-2 text-white outline-none ring-0 placeholder:text-slate-500" placeholder="you@company.com" /></label>
+          </div>
+          <label class="mt-4 block text-sm"><span class="mb-1 block text-slate-300">Company</span><input class="w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-2 text-white outline-none ring-0 placeholder:text-slate-500" placeholder="Company Ltd." /></label>
+          <label class="mt-4 block text-sm"><span class="mb-1 block text-slate-300">Message</span><textarea rows="5" class="w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-2 text-white outline-none ring-0 placeholder:text-slate-500" placeholder="Tell us what you want to deliver and where�"></textarea></label>
+          <button type="submit" class="mt-4 inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2 font-semibold text-slate-950 hover:bg-sky-400">Send message</button>
+          <p class="mt-3 text-xs text-slate-400">This demo form doesn�t submit anywhere yet�wire it to Formspree or your backend.</p>
+        </form>
+        <div class="rounded-2xl bg-slate-900/60 p-6 ring-1 ring-white/10">
+          <h3 class="text-lg font-semibold text-white">Contact details</h3>
+          <ul class="mt-3 space-y-2 text-slate-300">
+            <li>WhatsApp: +233 55 000 0000</li>
+            <li>Email: hello@skycourier.africa</li>
+            <li>HQ: Bubuashie, Accra, Ghana</li>
+          </ul>
+          <div class="mt-6 rounded-xl border border-white/10 bg-slate-950 p-4 text-sm text-slate-400">
+            <p class="font-semibold text-slate-200">Pilot areas</p>
+            <p>University of Ghana, Legon � Airport Residential � Tema Community 1�12</p>
+          </div>
+          <div class="mt-6 grid grid-cols-2 gap-3 text-sm">
+            <a href="#" class="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-center font-semibold text-white hover:bg-white/10">Download iOS App</a>
+            <a href="#" class="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-center font-semibold text-white hover:bg-white/10">Download Android App</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 py-8 text-sm text-slate-400 md:flex-row md:px-8">
+      <p>� <span id="year"></span> SkyCourier. All rights reserved.</p>
+      <nav class="flex items-center gap-4">
+        <a href="#" class="hover:text-white">Privacy</a>
+        <a href="#" class="hover:text-white">Terms</a>
+        <a href="#" class="hover:text-white">Status</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    // Leaflet map centered on Accra
+    const map = L.map('liveMap', { zoomControl: false });
+    const start = [5.6504, -0.1969]; // Achimota
+    map.setView(start, 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    // Drone marker + route
+    const droneIcon = L.divIcon({
+      className: 'drone-icon',
+      html: '<div style="width:14px;height:14px;border-radius:9999px;background:#38bdf8;box-shadow:0 0 0 3px rgba(56,189,248,.25);"></div>'
+    });
+
+    const route = [
+      [5.6504, -0.1969], // Achimota
+      [5.6380, -0.1791], // Dzorwulu
+      [5.6166, -0.2050], // Airport Residential
+      [5.6037, -0.1870], // Accra central
+      [5.6026, -0.2060]  // Ridge
+    ];
+
+    const poly = L.polyline(route, { weight: 3, opacity: 0.85 }).addTo(map);
+    const marker = L.marker(route[0], { icon: droneIcon }).addTo(map);
+
+    // Simulated realtime updates (replace with WebSocket later)
+    let seg = 0; let u = 0; const step = 0.18; // move ~5 steps per segment
+    const badge = document.getElementById('liveBadge');
+    function setStatus(txt){ if (badge) badge.textContent = txt; }
+    function lerp(a,b,t){ return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t]; }
+
+    setStatus('Live tracking � En route');
+    const timer = setInterval(() => {
+      if (seg >= route.length - 1) { setStatus('Live tracking � Delivered'); clearInterval(timer); return; }
+      const from = route[seg];
+      const to = route[seg+1];
+      u += step;
+      if (u >= 1) { seg++; u = 0; if (seg === route.length - 1) setStatus('Live tracking � Landing'); }
+      const pos = lerp(from, to, u);
+      marker.setLatLng(pos);
+      map.panTo(pos, { animate: true });
+    }, 1200);
+
+    // HOW TO CONNECT YOUR BACKEND (example):
+    // const socket = new WebSocket('wss://your-server/ws/drone/DRONE_ID');
+    // socket.onmessage = (e) => { const d = JSON.parse(e.data); marker.setLatLng([d.lat, d.lng]); setStatus('Live tracking � ' + (d.status || 'En route')); };
+  </script>
+</body>
+</html>

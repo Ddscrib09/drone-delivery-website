@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Drone Gallery — SkyCourier</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>body{background:#071027;color:#e6eef8}</style>
+</head>
+<body class="min-h-screen">
+  <header class="border-b border-white/10 py-4 px-6">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="/" class="text-white font-bold">SkyCourier</a>
+      <nav class="text-sm text-slate-300"><a href="/" class="hover:text-white">Home</a></nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 py-10">
+    <h1 class="text-3xl font-bold mb-4">Drone gallery</h1>
+    <p class="text-slate-300 mb-8">A selection of our delivery drones — lightweight, quiet, and efficient. Click any image for the full view.</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
+      <figure class="rounded-2xl bg-slate-900/40 p-4 text-center">
+        <img src="/images/drone-2.jpg" alt="Drone" class="mx-auto h-64 w-full object-cover rounded-md" />
+        <figcaption class="mt-3 text-sm text-slate-300">Uploaded drone image</figcaption>
+      </figure>
+      <figure class="rounded-2xl bg-slate-900/40 p-4 text-center">
+        <img src="/images/drone-3.jpg" alt="Drone" class="mx-auto h-64 w-full object-cover rounded-md" />
+        <figcaption class="mt-3 text-sm text-slate-300">Verified drone image</figcaption>
+      </figure>
+    </div>
+
+    <div class="mt-8 text-center">
+      <a href="/" class="inline-block rounded-xl bg-sky-500 px-5 py-2 text-sm font-semibold text-slate-950">Back to home</a>
+    </div>
+  </main>
+
+  <footer class="border-t border-white/10 py-8 text-center text-sm text-slate-400">
+    © <span id="year"></span> SkyCourier
+  </footer>
+
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+</body>
+</html>
